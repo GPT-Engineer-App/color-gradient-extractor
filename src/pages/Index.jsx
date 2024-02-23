@@ -24,21 +24,18 @@ const Index = () => {
   };
 
   const generateGradients = () => {
-    setColors((currentColors) => {
-      if (currentColors.length === 1) {
-        setGradients([`linear-gradient(to right, ${currentColors[0]}, ${currentColors[0]})`]);
-      } else {
-        const newGradients = [];
-        for (let i = 0; i < currentColors.length; i++) {
-          for (let j = 0; j < currentColors.length; j++) {
-            if (i !== j) {
-              newGradients.push(`linear-gradient(to right, ${currentColors[i]}, ${currentColors[j]})`);
-            }
-          }
+    if (colors.length === 1) {
+      setGradients([`linear-gradient(to right, ${colors[0]}, ${colors[0]})`]);
+    } else {
+      const newGradients = [];
+      for (let i = 0; i < colors.length; i++) {
+        for (let j = i + 1; j < colors.length; j++) {
+          newGradients.push(`linear-gradient(to right, ${colors[i]}, ${colors[j]})`);
+          newGradients.push(`linear-gradient(to right, ${colors[j]}, ${colors[i]})`);
         }
-        setGradients(newGradients);
       }
-    });
+      setGradients(newGradients);
+    }
   };
 
   const extractCenterColor = () => {
