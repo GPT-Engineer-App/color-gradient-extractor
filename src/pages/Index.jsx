@@ -35,7 +35,6 @@ const Index = () => {
         }
       }
       setGradients(Array.from(newGradients));
-      setGradients(newGradients);
     }
   };
 
