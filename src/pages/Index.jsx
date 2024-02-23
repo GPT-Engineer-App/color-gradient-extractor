@@ -38,9 +38,10 @@ const Index = () => {
     }
   };
 
-  const extractCenterColor = () => {
+  const extractAndGenerateGradients = () => {
     const centerColors = gradients.map((gradient) => gradient.match(/to right, (.*?), (.*?)\)/)[2]);
-    setColors(centerColors, generateGradients);
+    setColors(centerColors);
+    generateGradients();
   };
 
   return (
@@ -51,8 +52,8 @@ const Index = () => {
           Add Color
         </Button>
       </Box>
-      <Button onClick={generateGradients} colorScheme="green" mb={4}>
-        Generate Gradients
+      <Button onClick={extractAndGenerateGradients} colorScheme="green" mb={4}>
+        Find Base and Generate Gradients
       </Button>
       <SimpleGrid columns={3} spacing={4}>
         {gradients.map((gradient, index) => (
