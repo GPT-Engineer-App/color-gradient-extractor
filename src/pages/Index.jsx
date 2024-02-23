@@ -27,13 +27,14 @@ const Index = () => {
     if (colors.length === 1) {
       setGradients([`linear-gradient(to right, ${colors[0]}, ${colors[0]})`]);
     } else {
-      const newGradients = [];
+      const newGradients = new Set();
       for (let i = 0; i < colors.length; i++) {
         for (let j = i + 1; j < colors.length; j++) {
-          newGradients.push(`linear-gradient(to right, ${colors[i]}, ${colors[j]})`);
-          newGradients.push(`linear-gradient(to right, ${colors[j]}, ${colors[i]})`);
+          newGradients.add(`linear-gradient(to right, ${colors[i]}, ${colors[j]})`);
+          newGradients.add(`linear-gradient(to right, ${colors[j]}, ${colors[i]})`);
         }
       }
+      setGradients(Array.from(newGradients));
       setGradients(newGradients);
     }
   };
