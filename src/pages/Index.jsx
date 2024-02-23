@@ -43,7 +43,13 @@ const Index = () => {
   };
 
   const extractAndGenerateGradients = () => {
-    const centerColors = gradients.map((gradient) => gradient.match(/to right, (.*?), (.*?)\)/)[2]);
+    // Assuming we get an even number of colors, we take the middle two colors for the base
+    const centerColors = gradients
+      .map((gradient) => {
+        const matches = gradient.match(/to right, (.*?), (.*?)\)/);
+        return matches ? matches.slice(1, 3) : [];
+      })
+      .flat();
     setColors(centerColors);
     generateGradients();
   };
