@@ -39,14 +39,10 @@ const Index = () => {
     }
   };
 
-  const extractCenterColor = (gradient) => {
-    const regex = /to right, (.*?), (.*?)\)/;
-    const match = gradient.match(regex);
-    if (match && match.length === 3) {
-      const centerColor = match[2];
-      setColors([centerColor]);
-      setGradients([`linear-gradient(to right, ${centerColor}, ${centerColor})`, ...colors.filter((c) => c !== centerColor).map((c) => `linear-gradient(to right, ${centerColor}, ${c})`)]);
-    }
+  const extractCenterColor = () => {
+    const allColors = [...colors, ...gradients.map((gradient) => gradient.match(/to right, (.*?), (.*?)\)/)[2])];
+    const newGradients = allColors.flatMap((color1) => allColors.map((color2) => `linear-gradient(to right, ${color1}, ${color2})`));
+    setGradients(newGradients);
   };
 
   return (
@@ -62,7 +58,7 @@ const Index = () => {
       </Button>
       <SimpleGrid columns={3} spacing={4}>
         {gradients.map((gradient, index) => (
-          <Box key={index} h="100px" bg={gradient} borderRadius="md" cursor="pointer" onClick={() => extractCenterColor(gradient)} />
+          <Box key={index} h="100px" bg={gradient} borderRadius="md" cursor="pointer" />
         ))}
       </SimpleGrid>
     </Box>
