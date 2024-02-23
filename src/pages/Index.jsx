@@ -24,24 +24,26 @@ const Index = () => {
   };
 
   const generateGradients = () => {
-    if (colors.length === 1) {
-      setGradients([`linear-gradient(to right, ${colors[0]}, ${colors[0]})`]);
-    } else {
-      const newGradients = [];
-      for (let i = 0; i < colors.length; i++) {
-        for (let j = 0; j < colors.length; j++) {
-          if (i !== j) {
-            newGradients.push(`linear-gradient(to right, ${colors[i]}, ${colors[j]})`);
+    setColors((currentColors) => {
+      if (currentColors.length === 1) {
+        setGradients([`linear-gradient(to right, ${currentColors[0]}, ${currentColors[0]})`]);
+      } else {
+        const newGradients = [];
+        for (let i = 0; i < currentColors.length; i++) {
+          for (let j = 0; j < currentColors.length; j++) {
+            if (i !== j) {
+              newGradients.push(`linear-gradient(to right, ${currentColors[i]}, ${currentColors[j]})`);
+            }
           }
         }
+        setGradients(newGradients);
       }
-      setGradients(newGradients);
-    }
+    });
   };
 
   const extractCenterColor = () => {
     const centerColors = gradients.map((gradient) => gradient.match(/to right, (.*?), (.*?)\)/)[2]);
-    setColors(centerColors);
+    setColors(centerColors, generateGradients);
   };
 
   return (
