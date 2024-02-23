@@ -40,9 +40,8 @@ const Index = () => {
   };
 
   const extractCenterColor = () => {
-    const allColors = [...colors, ...gradients.map((gradient) => gradient.match(/to right, (.*?), (.*?)\)/)[2])];
-    const newGradients = allColors.flatMap((color1) => allColors.map((color2) => `linear-gradient(to right, ${color1}, ${color2})`));
-    setGradients(newGradients);
+    const centerColors = gradients.map((gradient) => gradient.match(/to right, (.*?), (.*?)\)/)[2]);
+    setColors(centerColors);
   };
 
   return (
