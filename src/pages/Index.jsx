@@ -24,20 +24,29 @@ const Index = () => {
   };
 
   const generateGradients = () => {
-    const newGradients = [];
-    for (let i = 0; i < colors.length; i++) {
-      for (let j = i + 1; j < colors.length; j++) {
-        newGradients.push(`linear-gradient(to right, ${colors[i]}, ${colors[j]})`);
+    if (colors.length === 1) {
+      setGradients([`linear-gradient(to right, ${colors[0]}, ${colors[0]})`]);
+    } else {
+      const newGradients = [];
+      for (let i = 0; i < colors.length; i++) {
+        for (let j = 0; j < colors.length; j++) {
+          if (i !== j) {
+            newGradients.push(`linear-gradient(to right, ${colors[i]}, ${colors[j]})`);
+          }
+        }
       }
+      setGradients(newGradients);
     }
-    setGradients(newGradients);
   };
 
   const extractCenterColor = (gradient) => {
-    const middleIndex = Math.floor(gradient.length / 2);
-    const centerColor = gradient[middleIndex];
-    setColors([centerColor]);
-    generateGradients();
+    const regex = /to right, (.*?), (.*?)\)/;
+    const match = gradient.match(regex);
+    if (match && match.length === 3) {
+      const centerColor = match[2];
+      setColors([centerColor]);
+      setGradients([`linear-gradient(to right, ${centerColor}, ${centerColor})`, ...colors.filter((c) => c !== centerColor).map((c) => `linear-gradient(to right, ${centerColor}, ${c})`)]);
+    }
   };
 
   return (
